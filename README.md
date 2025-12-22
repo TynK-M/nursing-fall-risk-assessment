@@ -2,59 +2,56 @@
 
 ## Project Overview
 
-This project focuses on the assessment of **patient fall risk** in a clinical setting, using nursing-related variables and basic data analysis techniques.
-The goal is to simulate a **decision-support tool for nurses**, inspidered by commonly used fall risk assessment scales (e.g. Morse Fall Scale).
+This project explores the assessment of **patient fall risk** in a clinical setting using nursing-related variables and basic data analysis techniques.
 
-The project is implemented in **Python** using **Google Colab** and is suitable for educational and accademic purposes.
+The goal is to simulate a **simple and interpretable decision-support approach**, inspired by commonly used fall risk assessment scales (e.g. the Morse Fall Scale).
+
+The project is implemented in **Python** using **Google Colab** and is intended for educational and exploratory purposes.
 
 ---
 
 ## Objectives
 
-- Identify key nursing factors associated with patient falls
-- Calculate a fall risk score based on clinical variables
-- Classify patients into **low, medium, or high fall risk**
-- Visualize and interpret results from a **nursing perspective**
+- Identify key factors commonly associated with patient falls  
+- Calculate a fall risk score based on clinical variables  
+- Classify patients into **low, medium, or high fall risk categories**  
+- Visualize and interpret results in a clear and structured way  
 
---- 
+---
 
-## Nursing Relevance
+## Nursing and Clinical Context
 
-Patient falls are a major safety concern in healthcare settings.
-Nurses play a crucial role in:
+Patient falls are a major safety concern in healthcare settings.  
+Risk assessment is a fundamental step in fall prevention strategies and typically involves evaluating multiple patient-related factors.
 
-- assessing fall risk at admission and during hospitalization
-- implementing preventive interventions
-- monitoring high-risk patients
-
-This project highlights how **data analysis can support nursing clinical judgment**, without replacing it.
+This project illustrates how **structured data and simple scoring logic** can support fall risk evaluation, while emphasizing that such tools are meant to **support—not replace—clinical judgment**.
 
 ---
 
 ## Dataset
 
-The dataset used in this project is **simulated** and does not contain real patient data.
+The dataset used in this project is **fully simulated** and does not contain real patient data.
 
 ### Variables included:
 
-- `age`: patient age
-- `previous falls`: history of previous falls (yes/no)
-- `mobility`: level of mobility
-- `mental status`: cognitive status
-- `risk medications`: use of medications associated with fall risk
+- `age`: patient age  
+- `previous_falls`: history of previous falls (yes/no)  
+- `mobility`: level of mobility  
+- `mental_status`: cognitive status  
+- `risk_medications`: use of medications associated with increased fall risk  
 
 ---
 
 ## Methodology
 
-1. Data loading and exploration
-2. Assignment of risk scores to each variable
-3. Calculation of a total fall risk score
+1. Data loading and basic exploration  
+2. Assignment of weighted risk scores to each variable  
+3. Calculation of a total fall risk score  
 4. Risk classification:
-    - Low risk
-    - Medium risk
-    - High risk
-5. Data visualization and interpretation
+   - Low risk  
+   - Medium risk  
+   - High risk  
+5. Data visualization and interpretation  
 
 ---
 
@@ -64,26 +61,28 @@ The dataset used in this project is **simulated** and does not contain real pati
 
 ---
 
-## How to run the project
+## How to Run the Project
 
-1. Open the notebook in **Google Colab**
-2. Run all cels sequentially
-3. Review outputs, charts, and nursing interpretations
+1. Open the notebook in **Google Colab**  
+2. Run all cells sequentially  
+3. Review outputs, charts, and comments  
 
-As it is a notebook project it doesn't require additional intstallations.
+As this is a notebook-based project, **no additional installation is required**.
 
 ---
 
 ## Limitations
 
-- The dataset is simulated and simplified
-- The scoring system is for educational purposes only
-- The model does not replace clinical assessment or validated tools
+- The dataset is simulated and simplified  
+- The scoring system is illustrative and not clinically validated  
+- This project is **not intended for real-world clinical use**  
 
-## Educational Purpose
+---
 
-This project was developed for **learning and academic use**, with a focus on:
+## Purpose
 
-- nursing assessment
-- patient safety
-- basic data analysis
+This project was created as a **learning and exploratory exercise**, combining:
+
+- interest in healthcare-related problems  
+- basic data analysis techniques  
+- transparent and interpretable decision logic
