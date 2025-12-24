@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Morse Fall Risk Assessment</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css" />
+</head>
+
+<body>
+    <main class="container" x-data="assessmentApp">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="h4 mb-3 text-center">Morse Fall Risk Assessment</h2>
+
+                <form class="row g-3" @submit.prevent="calculate">
+                    <div class="col-12 form-check">
+                        <input class="form-check-input" type="checkbox" x-model="fallingHistory" id="fallingHistory">
+                        <label class="form-check-label" for="fallingHistory">History of falls</label>
+                    </div>
+
+                    <div class="col-12 form-check">
+                        <input class="form-check-input" type="checkbox" x-model="secondaryDiagnosis"
+                            id="secondaryDiagnosis">
+                        <label class="form-check-label" for="secondaryDiagnosis">Secondary diagnosis</label>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Ambulatory aid</label>
+                        <select class="form-select" x-model="ambulatoryAid">
+                            <option value="bed rest">Bed rest</option>
+                            <option value="nurse assist">Nurse assist</option>
+                            <option value="crutches">Crutches</option>
+                            <option value="cane">Cane</option>
+                            <option value="walker">Walker</option>
+                            <option value="furniture">Furniture</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 form-check">
+                        <input class="form-check-input" type="checkbox" x-model="ivOrHeparinLock" id="ivOrHeparinLock">
+                        <label class="form-check-label" for="ivOrHeparinLock">IV / Heparin lock</label>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label">Gait / transferring</label>
+                        <select class="form-select" x-model="gaitOrTransfering">
+                            <option value="normal">Normal</option>
+                            <option value="bed rest">Bed rest</option>
+                            <option value="immobile">Immobile</option>
+                            <option value="weak">Weak</option>
+                            <option value="impaired">Impaired</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 form-check">
+                        <input class="form-check-input" type="checkbox" x-model="forgetsLimitations"
+                            id="forgetsLimitations">
+                        <label class="form-check-label" for="forgetsLimitations">Forgets limitations</label>
+                    </div>
+
+                    <div class="col-12 d-flex justify-content-center gap-2 mt-2">
+                        <button class="btn btn-primary" type="button" @click="calculate">Calculate</button>
+                        <button class="btn btn-outline-secondary" type="button" @click="reset">Reset</button>
+                    </div>
+                </form>
+
+                <div x-show="calculated" class="mt-4" x-cloak>
+                    <h5 class="mb-2">Result</h5>
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="result-badge" :class="resultClass">
+                            <strong>Score:</strong> <span x-text="score"></span>
+                        </div>
+                        <div>
+                            <span class="fw-semibold" x-text="riskLabel + ' risk'"></span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3">
+                        <h6 class="mb-2">Suggested actions</h6>
+                        <ul class="mb-0">
+                            <li x-show="score < 25">Low risk — routine precautions and reassess as needed.</li>
+                            <li x-show="score >= 25 && score <= 45">Medium risk — increase observation, assistive
+                                devices, review medications.</li>
+                            <li x-show="score > 45">High risk — implement fall-prevention protocol, consider 1:1
+                                observation.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <footer class="text-center mt-4 mb-3 small">
+            <p>© Matteo Pauroso 2025</p>
+            <p>This is a study project and is not meant to be used by real hospitals.</p>
+        </footer>
+    </main>
+
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('assessmentApp', () => ({
+                fallingHistory: false,
+                secondaryDiagnosis: false,
+                ambulatoryAid: 'bed rest',
+                ivOrHeparinLock: false,
+                gaitOrTransfering: 'normal',
+                forgetsLimitations: false,
+                score: 0,
+                riskLabel: '',
+                calculated: false,
+
+                calculate() {
+                    let total = 0;
+                    total += this.fallingHistory ? 25 : 0;
+                    total += this.secondaryDiagnosis ? 15 : 0;
+
+                    const aidScores = { 'bed rest': 0, 'nurse assist': 0, 'crutches': 15, 'cane': 15, 'walker': 15, 'furniture': 30 };
+                    total += aidScores[this.ambulatoryAid] || 0;
+
+                    total += this.ivOrHeparinLock ? 20 : 0;
+
+                    const gaitScores = { 'normal': 0, 'bed rest': 0, 'immobile': 10, 'weak': 10, 'impaired': 20 };
+                    total += gaitScores[this.gaitOrTransfering] || 0;
+
+                    total += this.forgetsLimitations ? 15 : 0;
+
+                    this.score = total;
+                    this.riskLabel = total < 25 ? 'Low' : total <= 45 ? 'Medium' : 'High';
+                    this.calculated = true;
+                },
+
+                reset() {
+                    this.fallingHistory = false;
+                    this.secondaryDiagnosis = false;
+                    this.ambulatoryAid = 'bed rest';
+                    this.ivOrHeparinLock = false;
+                    this.gaitOrTransfering = 'normal';
+                    this.forgetsLimitations = false;
+                    this.score = 0;
+                    this.riskLabel = '';
+                    this.calculated = false;
+                },
+
+                get resultClass() {
+                    return this.score < 25 ? 'bg-success text-white p-2 rounded' :
+                        this.score <= 45 ? 'bg-warning text-dark p-2 rounded' :
+                            'bg-danger text-white p-2 rounded';
+                }
+            }));
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
